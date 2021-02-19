@@ -1,16 +1,9 @@
 Density Functional Theorem for Dummies
 ======================================
 
-## Install
-
-To install with testing and development dependencies,
+## Install with Poetry
 
 ```
-pip install ".[testing]" ".[dev]"
-```
-
-Otherwise, simply do
-
-```
-pip install .
+export SYSTEM_VERSION_COMPAT=1 # for macos
+poetry install --no-root # for dev
 ```
