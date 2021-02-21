@@ -1,10 +1,24 @@
 """Bravis Lattice"""
 from enum import Enum
-from typing import Tuple
+from typing import Dict, Tuple, overload
 
 import numpy as np
 
 
+def calc_volume(vec: np.ndarray) -> float:
+    """calculate the volume of the cell
+    [Reference](https://mathinsight.org/scalar_triple_product)
+
+    Args:
+        vec (np.ndarray): 3x3 array
+
+    Returns:
+        float: cell volume
+    """
+    return np.abs(np.linalg.det(vec))
+
+
+@overload
 def make_lattice(
     a: float, b: float, c: float, alpha: float, beta: float, gamma: float
 ) -> Tuple[np.ndarray, float]:
@@ -42,3 +56,67 @@ class BravisLattice(str, Enum):
     cubic = "Cubic"
     fcc = "Face Centre Cubic"
     bcc = "Body Centre Cubic"
+
+
+@overload
+def make_lattice(
+    bravis: BravisLattice, **kwargs: Dict[str, float]
+) -> Tuple[np.ndarray, float]:
+    """make a lattice according to the type of Lattice
+
+    Args:
+        bravis (BravisLattice): type of Bravis lattice
+
+    Keyword Args:
+        a, b, c, alpha, beta, gamma
+
+    Returns:
+        Tuple[np.ndarray, float]: Lattice vectors (3x3) and volume
+    """
+    a = kwargs["a"]  # first lattice constant
+    if bravis == BravisLattice.triclinic:
+        pass
+    elif bravis == BravisLattice.monoclinic:
+        kwargs["alpha"] = kwargs["gamma"] = np.pi / 2
+    elif bravis == BravisLattice.orthorhombic:
+        kwargs["alpha"] = kwargs["gamma"] = kwargs["beta"] = np.pi / 2
+    elif bravis == BravisLattice.tetragonal:
+        kwargs["alpha"] = kwargs["gamma"] = kwargs["beta"] = np.pi / 2
+        kwargs["b"] = a
+    elif bravis == BravisLattice.hexagonal:
+        kwargs["alpha"] = kwargs["beta"] = np.pi / 2
+        kwargs["gamma"] = np.pi / 3
+    elif bravis == BravisLattice.cubic:
+        kwargs["alpha"] = kwargs["gamma"] = kwargs["beta"] = np.pi / 2
+        kwargs["b"] = kwargs["c"] = a
+    elif bravis == BravisLattice.fcc:
+        return (
+            a
+            * np.array(
+                [
+                    [0.5, 0.0, 0.5],
+                    [0.5, 0.5, 0.0],
+                    [0.0, 0.5, 0.5],
+                ]
+            ),
+            0.25 * a * a * a,
+        )
+    elif bravis == BravisLattice.bcc:
+        return (
+            0.5
+            * a
+            * np.array(
+                [
+                    [1, 1, 1],
+                    [1, -1, 1],
+                    [-1, 1, 1],
+                ]
+            ),
+            0.5 * a * a * a,
+        )
+    elif bravis == BravisLattice.hexagonal:
+        c = kwargs["c"] / a
+        vec = a * np.array([[1, 0, 0], [-1 / 2, np.sqrt(3) / 2, 0], [0, 0, c]])
+        return (vec, calc_volume(vec))
+
+    return make_lattice(**kwargs)
