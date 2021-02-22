@@ -1,6 +1,6 @@
 """Bravis Lattice"""
 from enum import Enum
-from typing import Dict, Tuple, overload
+from typing import Dict, Tuple
 
 import numpy as np
 
@@ -18,8 +18,7 @@ def calc_volume(vec: np.ndarray) -> float:
     return np.abs(np.linalg.det(vec))
 
 
-@overload
-def make_lattice(
+def make_lattice_general(
     a: float, b: float, c: float, alpha: float, beta: float, gamma: float
 ) -> Tuple[np.ndarray, float]:
     """making a bravis lattice and return its lattice vectors and volume
@@ -58,8 +57,7 @@ class BravisLattice(str, Enum):
     bcc = "Body Centre Cubic"
 
 
-@overload
-def make_lattice(
+def make_lattice_bravis(
     bravis: BravisLattice, **kwargs: Dict[str, float]
 ) -> Tuple[np.ndarray, float]:
     """make a lattice according to the type of Lattice
@@ -119,4 +117,4 @@ def make_lattice(
         vec = a * np.array([[1, 0, 0], [-1 / 2, np.sqrt(3) / 2, 0], [0, 0, c]])
         return (vec, calc_volume(vec))
 
-    return make_lattice(**kwargs)
+    return make_lattice_general(**kwargs)
