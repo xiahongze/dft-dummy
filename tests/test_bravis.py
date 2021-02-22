@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from dft_dummy import bravis
 
 NINETY = np.pi / 2
@@ -32,3 +33,35 @@ def test_general_fcc():
     assert np.allclose(vec[1].dot(vec[2]), 0.25)
     assert np.allclose(vec[0].dot(vec[2]), 0.25)
     assert np.allclose(vol, 0.25)
+
+
+@pytest.fixture(
+    params=[
+        (
+            bravis.BravisLattice.triclinic,
+            dict(a=1, b=2, c=3, alpha=ACOS0_5, beta=ACOS0_5, gamma=ACOS0_5),
+        ),  # triclinic
+        (
+            bravis.BravisLattice.monoclinic,
+            dict(a=1, b=2, c=3, alpha=NINETY, beta=ACOS0_5, gamma=NINETY),
+        ),  # monoclinic
+        (
+            bravis.BravisLattice.orthorhombic,
+            dict(a=1, b=2, c=3, alpha=NINETY, beta=NINETY, gamma=NINETY),
+        ),  # orthorhombic
+        (
+            bravis.BravisLattice.tetragonal,
+            dict(a=1, b=1, c=3, alpha=NINETY, beta=NINETY, gamma=NINETY),
+        ),  # tetragonal
+    ]
+)
+def bravis_kwargs(request):
+    return request.param
+
+
+def test_bravis_non_cubic_non_hcp(bravis_kwargs):
+    brav, kwargs = bravis_kwargs
+    vec, vol = bravis.make_lattice_bravis(brav, **kwargs)
+    vec_exp, vol_exp = bravis.make_lattice_general(**kwargs)
+    assert np.allclose(vol, vol_exp)
+    assert np.allclose(vec, vec_exp)
