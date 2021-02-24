@@ -53,15 +53,30 @@ def test_general_fcc():
             bravis.BravisLattice.tetragonal,
             dict(a=1, b=1, c=3, alpha=NINETY, beta=NINETY, gamma=NINETY),
         ),  # tetragonal
+        (bravis.BravisLattice.cubic, dict(a=1)),  # cubic
+        (bravis.BravisLattice.fcc, dict(a=1)),  # fcc
+        (bravis.BravisLattice.bcc, dict(a=1)),  # hcp
+        (bravis.BravisLattice.hexagonal, dict(a=1, c=2)),
     ]
 )
 def bravis_kwargs(request):
     return request.param
 
 
-def test_bravis_non_cubic_non_hcp(bravis_kwargs):
+SPECIALS = {
+    bravis.BravisLattice.cubic,
+    bravis.BravisLattice.fcc,
+    bravis.BravisLattice.bcc,
+    bravis.BravisLattice.hexagonal,
+}
+
+
+def test_bravis(bravis_kwargs):
     brav, kwargs = bravis_kwargs
     vec, vol = bravis.make_lattice_bravis(brav, **kwargs)
-    vec_exp, vol_exp = bravis.make_lattice_general(**kwargs)
+    if brav not in SPECIALS:
+        vec_exp, vol_exp = bravis.make_lattice_general(**kwargs)
+        assert np.allclose(vec, vec_exp)
+    else:
+        vol_exp = bravis.calc_volume(vec)
     assert np.allclose(vol, vol_exp)
-    assert np.allclose(vec, vec_exp)

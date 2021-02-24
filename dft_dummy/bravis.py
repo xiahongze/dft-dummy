@@ -81,12 +81,8 @@ def make_lattice_bravis(
     elif bravis == BravisLattice.tetragonal:
         kwargs["alpha"] = kwargs["gamma"] = kwargs["beta"] = np.pi / 2
         kwargs["b"] = a
-    elif bravis == BravisLattice.hexagonal:
-        kwargs["alpha"] = kwargs["beta"] = np.pi / 2
-        kwargs["gamma"] = np.pi / 3
     elif bravis == BravisLattice.cubic:
-        kwargs["alpha"] = kwargs["gamma"] = kwargs["beta"] = np.pi / 2
-        kwargs["b"] = kwargs["c"] = a
+        return (a * np.eye(3), a * a * a)
     elif bravis == BravisLattice.fcc:
         return (
             a
@@ -116,5 +112,7 @@ def make_lattice_bravis(
         c = kwargs["c"] / a
         vec = a * np.array([[1, 0, 0], [-1 / 2, np.sqrt(3) / 2, 0], [0, 0, c]])
         return (vec, calc_volume(vec))
+    else:
+        raise ValueError(f"unsupported Bravis Lattice, {bravis}")
 
     return make_lattice_general(**kwargs)
