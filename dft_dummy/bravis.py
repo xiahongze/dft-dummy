@@ -68,6 +68,11 @@ def make_lattice_bravis(
     Keyword Args:
         a, b, c, alpha, beta, gamma
 
+    Raises:
+        ValueError: wrong bravis lattice
+        TypeError: missing parameters
+        KeyError: missing parameters
+
     Returns:
         Tuple[np.ndarray, float]: Lattice vectors (3x3) and volume
     """
