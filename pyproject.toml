@@ -9,11 +9,9 @@ description = "Density Function Theorem for Dummies"
 
 license = "MIT"
 
-authors = [
-    "Hongze Xia <hongzex@gmail.com>"
-]
+authors = ["Hongze Xia <hongzex@gmail.com>"]
 
-readme = 'README.md'  # Markdown files are supported
+readme = 'README.md' # Markdown files are supported
 
 repository = "https://github.com/xiahongze/dft-for-dummies"
 homepage = "https://github.com/xiahongze/dft-for-dummies"
@@ -28,7 +26,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"  # Compatible python versions must be declared here
+python = "^3.7" # Compatible python versions must be declared here
 numpy = "^1.10.0"
 scipy = "^1.4.0"
 click = "^7.0.0"
@@ -45,7 +43,7 @@ include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
-line-length = 120
+line-length = 88
 target-version = ['py38']
 include = '\.pyi?$'
 exclude = '''
