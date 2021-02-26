@@ -19,13 +19,13 @@ def test_op_lengths(symmetry_ops, symmetry_op_names):
 
 POSSIBLE_OPS = {
     bravis.BravisLattice.triclinic: [0],
-    bravis.BravisLattice.monoclinic: [0, 1, 2, 3],
+    bravis.BravisLattice.monoclinic: [0, 2],
     bravis.BravisLattice.orthorhombic: [0, 1, 2, 3],
     bravis.BravisLattice.tetragonal: list(range(8)),
     bravis.BravisLattice.cubic: list(range(24)),
     bravis.BravisLattice.fcc: list(range(24)),
     bravis.BravisLattice.bcc: list(range(24)),
-    bravis.BravisLattice.hexagonal: [0, 1, 2, 3, 24, 25, 26, 27, 28, 29, 30, 31],
+    bravis.BravisLattice.hcp: [0, 1, 2, 3, 24, 25, 26, 27, 28, 29, 30, 31],
 }
 
 

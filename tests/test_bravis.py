@@ -13,6 +13,7 @@ def test_general_cubic():
 
 
 def test_general_fcc():
+    """using the FCC lattice vectors to test make_lattice_general"""
     vec, vol = bravis.make_lattice_general(
         COS45, COS45, COS45, ACOS0_5, ACOS0_5, ACOS0_5
     )
@@ -30,7 +31,7 @@ SPECIALS = {
     bravis.BravisLattice.cubic,
     bravis.BravisLattice.fcc,
     bravis.BravisLattice.bcc,
-    bravis.BravisLattice.hexagonal,
+    bravis.BravisLattice.hcp,
 }
 
 
@@ -55,7 +56,7 @@ MUST_HAVE_PARAMS = {
     bravis.BravisLattice.cubic: {"a"},
     bravis.BravisLattice.fcc: {"a"},
     bravis.BravisLattice.bcc: {"a"},
-    bravis.BravisLattice.hexagonal: {"a", "c"},
+    bravis.BravisLattice.hcp: {"a", "c"},
 }
 
 
