@@ -34,9 +34,9 @@ def test_symmetry(bravis_kwargs, symmetry_ops):
     vec, _ = bravis.make_lattice_bravis(brav, **kwargs)
 
     overlap = symmetry.calc_overlap_matrix(vec)
-    checks = [
+    valid_ops = [
         i
         for i, sym in enumerate(symmetry_ops)
         if symmetry.check_symmetry(sym, vec, overlap)
     ]
-    assert POSSIBLE_OPS.get(brav) == checks
+    assert POSSIBLE_OPS.get(brav) == valid_ops
