@@ -24,7 +24,7 @@ VEC_FCC = np.array(
         ),  # triclinic
         (
             bravis.BravisLattice.monoclinic,
-            dict(a=1, b=2, c=3, alpha=NINETY, beta=ACOS0_5, gamma=NINETY),
+            dict(a=1, b=2, c=3, alpha=NINETY, beta=ACOS0_5 + 0.1, gamma=NINETY),
         ),  # monoclinic
         (
             bravis.BravisLattice.orthorhombic,
@@ -37,7 +37,7 @@ VEC_FCC = np.array(
         (bravis.BravisLattice.cubic, dict(a=1)),  # cubic
         (bravis.BravisLattice.fcc, dict(a=1)),  # fcc
         (bravis.BravisLattice.bcc, dict(a=1)),  # bcc
-        (bravis.BravisLattice.hexagonal, dict(a=1, c=2)),  # hcp
+        (bravis.BravisLattice.hcp, dict(a=1, c=2)),  # hcp
     ]
 )
 def bravis_kwargs(request):

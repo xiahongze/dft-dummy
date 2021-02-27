@@ -51,10 +51,10 @@ class BravisLattice(str, Enum):
     orthorhombic = "orthorhombic"
     tetragonal = "Tetragonal"
     trigonal = "Trigonal"  # Rhomohedral
-    hexagonal = "Hexagonal"
     cubic = "Cubic"
     fcc = "Face Centre Cubic"
     bcc = "Body Centre Cubic"
+    hcp = "Hexagonal"
 
 
 def make_lattice_bravis(
@@ -113,7 +113,7 @@ def make_lattice_bravis(
             ),
             0.5 * a * a * a,
         )
-    elif bravis == BravisLattice.hexagonal:
+    elif bravis == BravisLattice.hcp:
         c = kwargs["c"] / a
         vec = a * np.array([[1, 0, 0], [-1 / 2, np.sqrt(3) / 2, 0], [0, 0, c]])
         return (vec, calc_volume(vec))
